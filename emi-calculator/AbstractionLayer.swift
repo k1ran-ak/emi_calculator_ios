@@ -15,7 +15,9 @@ class AbstractionLayer : UIView {
     var view1State : States = .firstViewExpanded
     var view2State : States = .secondViewCollapsed
     var view3State : States = .thirdViewCollapsed
+    var stateNotHandled : Bool = false
     
+    //MARK: - Initialisation
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubViews()
@@ -28,45 +30,11 @@ class AbstractionLayer : UIView {
 //        handlingStateChanges(selectedView: 1)
         //        generalConstraints()
     }
-    
-    func addSubViews() {
-        self.addSubview(stack)
-        self.addSubview(bottomView)
-        self.addSubview(topLayer)
-        self.addSubview(middleLayer)
-        self.bringSubviewToFront(topLayer)
-        self.bringSubviewToFront(middleLayer)
-        self.bringSubviewToFront(bottomView)
-    }
-    
-   
-    
-    
-    func addGestures() {
-        let tap1 = UITapGestureRecognizer(target: self, action: #selector(tapAction1(_:)))
-        view1.addGestureRecognizer(tap1)
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(tapAction2(_:)))
-        view2.addGestureRecognizer(tap2)
-        let tap3 = UITapGestureRecognizer(target: self, action: #selector(tapAction3(_:)))
-        view3.addGestureRecognizer(tap3)
-        let tapLayer1 = UITapGestureRecognizer(target: self, action: #selector(tapLayerAction1(_:)))
-        topLayer.addGestureRecognizer(tapLayer1)
-        let tapLayer2 =  UITapGestureRecognizer(target: self, action: #selector(tapLayerAction2(_:)))
-        middleLayer.addGestureRecognizer(tapLayer2)
-        let bottomViewTap = UITapGestureRecognizer(target: self, action: #selector(bottomViewTapAction(_:)))
-        bottomView.addGestureRecognizer(bottomViewTap)
-    }
-    
-    
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
-    
-    
+    //MARK: - Necessary Views
     
     lazy var view1 : UIView = {
         let view = UIView()
@@ -160,16 +128,21 @@ class AbstractionLayer : UIView {
         view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.layer.cornerRadius = 20
         view.backgroundColor = UIColor(hexString: "#243A73")
-        
+        let label = UILabel()
+        label.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
+        label.text = "Proceed to EMI Selection"
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = UIColor(hexString: "#DFDFDE")
+        label.textAlignment = .center
+        view.addSubview(label)
+        view.bringSubviewToFront(label)
         return view
     }()
-    
-    
+
     lazy var topLayer : UIView = {
         let view = UIView()
         view.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.frame.width, height: 150)
         view.backgroundColor = .black.withAlphaComponent(0.25)
-        
         return view
     }()
     
@@ -180,6 +153,32 @@ class AbstractionLayer : UIView {
         return view
     }()
     
+    //MARK: - Class functions
+    
+    func addSubViews() {
+        self.addSubview(stack)
+        self.addSubview(bottomView)
+        self.addSubview(topLayer)
+        self.addSubview(middleLayer)
+        self.bringSubviewToFront(middleLayer)
+        self.bringSubviewToFront(topLayer)
+        self.bringSubviewToFront(bottomView)
+    }
+
+    func addGestures() {
+        let tap1 = UITapGestureRecognizer(target: self, action: #selector(tapAction1(_:)))
+        view1.addGestureRecognizer(tap1)
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(tapAction2(_:)))
+        view2.addGestureRecognizer(tap2)
+        let tap3 = UITapGestureRecognizer(target: self, action: #selector(tapAction3(_:)))
+        view3.addGestureRecognizer(tap3)
+        let tapLayer1 = UITapGestureRecognizer(target: self, action: #selector(tapLayerAction1(_:)))
+        topLayer.addGestureRecognizer(tapLayer1)
+        let tapLayer2 =  UITapGestureRecognizer(target: self, action: #selector(tapLayerAction2(_:)))
+        middleLayer.addGestureRecognizer(tapLayer2)
+        let bottomViewTap = UITapGestureRecognizer(target: self, action: #selector(bottomViewTapAction(_:)))
+        bottomView.addGestureRecognizer(bottomViewTap)
+    }
     
     @objc func tapAction1(_ sender: UITapGestureRecognizer? = nil) {
         addConstraintsToViews(selectedView: 1)
@@ -214,10 +213,14 @@ class AbstractionLayer : UIView {
             addConstraintsToViews(selectedView: 3)
             handlingStateChanges(selectedView: 3)
         } else {
+            stateNotHandled = true
+            handlingStateChanges(selectedView: 0)
             print("not handled")
         }
         
     }
+    
+    //MARK: - Functions which handle height and states
     
     func addConstraintsToViews(selectedView : Int) {
         let heightConstraint1 = NSLayoutConstraint(item: view1, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 150)
@@ -235,9 +238,6 @@ class AbstractionLayer : UIView {
         let topLayerTop = NSLayoutConstraint(item: topLayer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
         let topLayerBottom = NSLayoutConstraint(item: topLayer, attribute: .bottom, relatedBy: .equal, toItem: view1, attribute: .bottom, multiplier: 1, constant: 0)
         let middleLayerTop = NSLayoutConstraint(item: middleLayer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
-        //        let middleLayerBottom = NSLayoutConstraint(item: middleLayer, attribute: .bottom, relatedBy: .equal, toItem: view3, attribute: .top, multiplier: 1, constant: 0)
-        //        let middleLayerHeight = NSLayoutConstraint(item: middleLayer, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 300)
-        //        middleLayerHeight.priority = UILayoutPriority(rawValue: 999)
         
         switch(selectedView) {
         case 1:
@@ -330,6 +330,7 @@ class AbstractionLayer : UIView {
             break
         default:
             print("state not handled")
+            updateSubViews()
             break
         }
         
@@ -343,6 +344,10 @@ class AbstractionLayer : UIView {
             view.removeFromSuperview()
         })
         self.view3.subviews.forEach({ view in
+            view.removeFromSuperview()
+        })
+        
+        self.bottomView.subviews.forEach({ view in
             view.removeFromSuperview()
         })
         
@@ -384,7 +389,7 @@ class AbstractionLayer : UIView {
         
         let label3 = UILabel()
         label3.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
-        label3.text = view3State == .thirdViewExpanded ? "where should we send the money?" : "select a bank"
+        label3.text = view3State == .thirdViewExpanded ? "where should we send the money?" : "Your accounts"
         label3.font = UIFont.systemFont(ofSize: 20)
         label3.textColor = UIColor(hexString: "#DFDFDE")
         label3.textAlignment = .left
@@ -398,6 +403,36 @@ class AbstractionLayer : UIView {
         subLabel3.textColor = UIColor(hexString: "#8D8DAA")
         subLabel3.textAlignment = .left
         self.view3.addSubview(subLabel3)
+        
+        
+        let label = UILabel()
+        label.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
+        label.text = handleBottomBarLabelText()
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = UIColor(hexString: "#DFDFDE")
+        label.textAlignment = .center
+        bottomView.addSubview(label)
+        
+        if stateNotHandled {
+            let label = UILabel()
+            label.frame = CGRect(x: 20, y: 45, width: self.frame.width - 40 , height: 20)
+            label.text = "join CRED for full experience !" //I hope I join CRED too
+            label.font = UIFont.systemFont(ofSize: 16)
+            label.textColor = UIColor(hexString: "#DFDFDE")
+            label.textAlignment = .center
+            bottomView.addSubview(label)
+            stateNotHandled = false
+        }
+    }
+    
+    func handleBottomBarLabelText() -> String {
+        if view1State == .firstViewExpanded {
+            return "proceed to EMI selection"
+        } else if view2State == .secondViewExpanded{
+            return "select your bank account"
+        } else {
+            return "tap for 1-click KYC"
+        }
     }
 }
 
