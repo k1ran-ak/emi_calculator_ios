@@ -14,12 +14,13 @@ class AbstractionLayer : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubViews()
+        addGestures()
         self.clipsToBounds = true
         self.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         self.layer.cornerRadius = 20
        
         addConstraintsToViews(selectedView: 1)
-        //        generalConstraints()
+//        generalConstraints()
     }
     
     func addSubViews() {
@@ -66,7 +67,7 @@ class AbstractionLayer : UIView {
         label.text = "hi Kiran"
         label.textColor = .white
         label.textAlignment = .left
-        
+        view.addSubview(label)
         return view
     }()
     
@@ -86,7 +87,6 @@ class AbstractionLayer : UIView {
         let stack = UIStackView(arrangedSubviews: [view1,view2,view3])
         stack.frame = self.bounds
         stack.axis = .vertical
-        
         stack.alignment = .fill
         stack.distribution = .fill
         return stack
@@ -94,7 +94,7 @@ class AbstractionLayer : UIView {
     
     lazy var bottomView : UIView = {
         let view = UIView()
-        view.frame = CGRect(x: self.frame.minX, y: self.frame.maxY - 80, width: self.frame.width - 20, height: 80)
+        view.frame = CGRect(x: self.frame.minX, y: self.frame.maxY - 100, width: self.frame.width - 20, height: 100)
         view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.layer.cornerRadius = 20
         view.backgroundColor = .orange.withAlphaComponent(0.5)
@@ -105,14 +105,14 @@ class AbstractionLayer : UIView {
     
     lazy var topLayer : UIView = {
         let view = UIView()
-        view.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.frame.width, height: 200)
+        view.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.frame.width, height: 150)
         view.backgroundColor = .black.withAlphaComponent(0.25)
         return view
     }()
     
     lazy var middleLayer : UIView = {
         let view = UIView()
-        view.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.frame.width, height: 200)
+        view.frame = CGRect(x: self.bounds.minX, y: self.bounds.minY, width: self.bounds.width, height: 300)
         view.backgroundColor = .black.withAlphaComponent(0.25)
         return view
     }()
@@ -140,20 +140,26 @@ class AbstractionLayer : UIView {
     
     func addConstraintsToViews(selectedView : Int) {
         let heightConstraint1 = NSLayoutConstraint(item: view1, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 150)
+        heightConstraint1.priority = UILayoutPriority(rawValue: 998)
         let heightConstraint2 = NSLayoutConstraint(item: view2, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 150)
+        heightConstraint2.priority = UILayoutPriority(rawValue: 999)
         let heightConstraint3 = NSLayoutConstraint(item: view3, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 150)
+        heightConstraint3.priority = UILayoutPriority(rawValue: 997)
+        let heightConstraint4 = NSLayoutConstraint(item: view3, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.lessThanOrEqual, toItem: stack, attribute: NSLayoutConstraint.Attribute.height, multiplier: 1, constant: self.stack.frame.height - 300)
+        heightConstraint4.priority = UILayoutPriority(rawValue: 999)
         
         let topLayerTop = NSLayoutConstraint(item: topLayer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
         let topLayerBottom = NSLayoutConstraint(item: topLayer, attribute: .bottom, relatedBy: .equal, toItem: view1, attribute: .bottom, multiplier: 1, constant: 0)
         let middleLayerTop = NSLayoutConstraint(item: middleLayer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
-        let middleLayerBottom = NSLayoutConstraint(item: middleLayer, attribute: .bottom, relatedBy: .equal, toItem: view2, attribute: .bottom, multiplier: 1, constant: 0)
+        let middleLayerBottom = NSLayoutConstraint(item: middleLayer, attribute: .bottom, relatedBy: .equal, toItem: view3, attribute: .top, multiplier: 1, constant: 0)
+        let middleLayerHeight = NSLayoutConstraint(item: middleLayer, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 300)
+        middleLayerHeight.priority = UILayoutPriority(rawValue: 999)
         
         switch(selectedView) {
         case 1:
-            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 self.topLayer.isHidden = true
                 self.middleLayer.isHidden = true
-                
                 self.removeConstraints(self.constraints)
                 self.addConstraints([heightConstraint2,heightConstraint3])
                 print("1 tapped")
@@ -162,10 +168,9 @@ class AbstractionLayer : UIView {
             
             break
         case 2:
-            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 self.topLayer.isHidden = false
                 self.middleLayer.isHidden = true
-                
                 self.removeConstraints(self.constraints)
                 self.addConstraints([heightConstraint1,heightConstraint3, topLayerTop, topLayerBottom])
                 print("2 tapped")
@@ -173,13 +178,13 @@ class AbstractionLayer : UIView {
             }, completion: nil)
             break
         case 3:
-            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-                self.topLayer.isHidden = false
+            UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.topLayer.isHidden = true
                 self.middleLayer.isHidden = false
-                
                 self.removeConstraints(self.constraints)
-                self.addConstraints([heightConstraint1,heightConstraint2, middleLayerTop, middleLayerBottom])
+                self.addConstraints([heightConstraint1,heightConstraint2,middleLayerTop])
                 print("3 tapped")
+                self.layoutSubviews()
                 self.layoutIfNeeded()
             }, completion: nil)
             break
@@ -187,21 +192,16 @@ class AbstractionLayer : UIView {
             UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 self.topLayer.isHidden = true
                 self.middleLayer.isHidden = true
-                self.removeConstraint(heightConstraint1)
+                self.removeConstraints(self.constraints)
                 self.addConstraints([heightConstraint2,heightConstraint3])
-                print("default")
+                print("1 tapped")
                 self.layoutIfNeeded()
             }, completion: nil)
         }
     }
     
     func generalConstraints() {
-        let heightConstraint = NSLayoutConstraint(item: self.bottomView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 100)
-        let leading = NSLayoutConstraint(item: self.bottomView, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.leadingAnchor, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 0)
-        let trailing = NSLayoutConstraint(item: self.bottomView, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.trailingAnchor, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 0)
-        
-        self.bottomView.addConstraints([heightConstraint,leading,trailing])
-        self.layoutIfNeeded()
+    
     }
 }
 
