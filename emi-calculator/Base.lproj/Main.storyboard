@@ -98,7 +98,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RpQ-B3-9q0" customClass="MSCircularSlider">
-                                                                <rect key="frame" x="20" y="123" width="374" height="6"/>
+                                                                <rect key="frame" x="20" y="123" width="374" height="0.0"/>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="number" keyPath="_minimumValue">
@@ -132,19 +132,19 @@
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credit Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfy-cJ-db8">
-                                                                <rect key="frame" x="148.5" y="84.5" width="117" height="21.5"/>
+                                                                <rect key="frame" x="148.5" y="81.5" width="117" height="21.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,50,000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGG-lS-Jxe">
-                                                                <rect key="frame" x="151" y="116" width="112" height="20.5"/>
+                                                                <rect key="frame" x="151" y="113" width="112" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="at 1.04% Monthly" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWI-3g-WJH">
-                                                                <rect key="frame" x="147.5" y="146.5" width="119" height="18"/>
+                                                                <rect key="frame" x="147.5" y="143.5" width="119" height="18"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -300,7 +300,7 @@
     </scenes>
     <designables>
         <designable name="RpQ-B3-9q0">
-            <size key="intrinsicContentSize" width="-16" height="-16"/>
+            <size key="intrinsicContentSize" width="-22" height="-22"/>
         </designable>
     </designables>
     <resources>

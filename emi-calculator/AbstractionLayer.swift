@@ -94,7 +94,7 @@ class AbstractionLayer : UIView {
     
     lazy var bottomView : UIView = {
         let view = UIView()
-        view.frame = CGRect(x: self.frame.minX, y: self.frame.maxY - 100, width: self.frame.width - 20, height: 100)
+        view.frame = CGRect(x: self.frame.minX, y: self.frame.maxY - 100, width: self.frame.width, height: 100)
         view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.layer.cornerRadius = 20
         view.backgroundColor = .orange.withAlphaComponent(0.5)

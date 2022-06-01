@@ -14,10 +14,14 @@ class AbstractionVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         let view = AbstractionLayer(frame: self.contentView.bounds)
         self.contentView.addSubview(view)
     }
-    
 
 
 }
