@@ -11,6 +11,11 @@ import UIKit
 
 class AbstractionLayer : UIView {
     
+    //MARK: - Local Variables
+    var view1State : States = .firstViewExpanded
+    var view2State : States = .secondViewCollapsed
+    var view3State : States = .thirdViewCollapsed
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubViews()
@@ -18,9 +23,10 @@ class AbstractionLayer : UIView {
         self.clipsToBounds = true
         self.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         self.layer.cornerRadius = 20
-       
-        addConstraintsToViews(selectedView: 1)
-//        generalConstraints()
+        
+        addConstraintsToViews(selectedView: 4)
+//        handlingStateChanges(selectedView: 1)
+        //        generalConstraints()
     }
     
     func addSubViews() {
@@ -32,6 +38,8 @@ class AbstractionLayer : UIView {
         self.bringSubviewToFront(middleLayer)
         self.bringSubviewToFront(bottomView)
     }
+    
+   
     
     
     func addGestures() {
@@ -45,6 +53,8 @@ class AbstractionLayer : UIView {
         topLayer.addGestureRecognizer(tapLayer1)
         let tapLayer2 =  UITapGestureRecognizer(target: self, action: #selector(tapLayerAction2(_:)))
         middleLayer.addGestureRecognizer(tapLayer2)
+        let bottomViewTap = UITapGestureRecognizer(target: self, action: #selector(bottomViewTapAction(_:)))
+        bottomView.addGestureRecognizer(bottomViewTap)
     }
     
     
@@ -60,27 +70,76 @@ class AbstractionLayer : UIView {
     
     lazy var view1 : UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hexString: "#243A73")
+        view.backgroundColor = UIColor(hexString: "#525E75")
         view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 15
         let label = UILabel()
-        label.text = "hi Kiran"
-        label.textColor = .white
+        label.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
+        label.text = view1State == .firstViewExpanded ? "hi Kiran, how much do you need?" : "credit amount"
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = UIColor(hexString: "#DFDFDE")
         label.textAlignment = .left
         view.addSubview(label)
+        
+        
+        let subLabel = UILabel()
+        subLabel.frame = CGRect(x: 20, y: 50, width: self.frame.width - 40, height: 40)
+        subLabel.text = view1State == .firstViewExpanded ? "move the dial and set any amount you need upto ₹ 487,891" : "₹1,50,000"
+        subLabel.numberOfLines = 0
+        subLabel.font = UIFont.systemFont(ofSize: 16)
+        subLabel.textColor = UIColor(hexString: "#8D8DAA")
+        subLabel.textAlignment = .left
+        view.addSubview(subLabel)
         return view
     }()
     
     lazy var view2 : UIView = {
-        let view2 = UIView()
-        view2.backgroundColor = .red
-        return view2
+        let view = UIView()
+        view.backgroundColor = UIColor(hexString: "#525E75")
+        view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        view.layer.cornerRadius = 15
+        let label = UILabel()
+        label.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
+        label.text = view2State == .secondViewExpanded ? "how do you wish to repay?" : "EMI"
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = UIColor(hexString: "#DFDFDE")
+        label.textAlignment = .left
+        view.addSubview(label)
+        
+        let subLabel = UILabel()
+        subLabel.frame = CGRect(x: 20, y: 50, width: self.frame.width - 40, height: 40)
+        subLabel.text = view2State == .secondViewExpanded ? "choose on of our recommended plans or make your own" : "₹4,247/mo"
+        subLabel.numberOfLines = 0
+        subLabel.font = UIFont.systemFont(ofSize: 16)
+        subLabel.textColor = UIColor(hexString: "#8D8DAA")
+        subLabel.textAlignment = .left
+        view.addSubview(subLabel)
+        
+        return view
     }()
     
     lazy var view3 : UIView = {
-        let view3 = UIView()
-        view3.backgroundColor = .green
-        return view3
+        let view = UIView()
+        view.backgroundColor = UIColor(hexString: "#525E75")
+        view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        view.layer.cornerRadius = 15
+        let label = UILabel()
+        label.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
+        label.text = "where should we send the money?"
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = UIColor(hexString: "#DFDFDE")
+        label.textAlignment = .left
+        view.addSubview(label)
+        
+        let subLabel = UILabel()
+        subLabel.frame = CGRect(x: 20, y: 50, width: self.frame.width - 40, height: 40)
+        subLabel.text = "amount will be credited to this bank account, EMI will also be debited from this bank account"
+        subLabel.numberOfLines = 0
+        subLabel.font = UIFont.systemFont(ofSize: 16)
+        subLabel.textColor = UIColor(hexString: "#8D8DAA")
+        subLabel.textAlignment = .left
+        view.addSubview(subLabel)
+        return view
     }()
     
     lazy var stack: UIStackView = {
@@ -89,15 +148,18 @@ class AbstractionLayer : UIView {
         stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .fill
+        //        stack.spacing = 10
+        //        stack.backgroundColor = UIColor(hexString: "354259")
+        stack.backgroundColor = .black.withAlphaComponent(0.8)
         return stack
     }()
     
     lazy var bottomView : UIView = {
         let view = UIView()
-        view.frame = CGRect(x: self.frame.minX, y: self.frame.maxY - 100, width: self.frame.width, height: 100)
+        view.frame = CGRect(x: self.frame.minX, y: self.frame.maxY - 80, width: self.frame.width, height: 80)
         view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.layer.cornerRadius = 20
-        view.backgroundColor = .orange.withAlphaComponent(0.5)
+        view.backgroundColor = UIColor(hexString: "#243A73")
         
         return view
     }()
@@ -107,6 +169,7 @@ class AbstractionLayer : UIView {
         let view = UIView()
         view.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.frame.width, height: 150)
         view.backgroundColor = .black.withAlphaComponent(0.25)
+        
         return view
     }()
     
@@ -120,22 +183,40 @@ class AbstractionLayer : UIView {
     
     @objc func tapAction1(_ sender: UITapGestureRecognizer? = nil) {
         addConstraintsToViews(selectedView: 1)
+        handlingStateChanges(selectedView: 1)
     }
     
     @objc func tapAction2(_ sender: UITapGestureRecognizer? = nil) {
         addConstraintsToViews(selectedView: 2)
+        handlingStateChanges(selectedView: 2)
     }
     
     @objc func tapAction3(_ sender: UITapGestureRecognizer? = nil) {
         addConstraintsToViews(selectedView: 3)
+        handlingStateChanges(selectedView: 3)
     }
     
     @objc func tapLayerAction1(_ sender: UITapGestureRecognizer? = nil) {
         addConstraintsToViews(selectedView: 1)
+        handlingStateChanges(selectedView: 1)
     }
     
     @objc func tapLayerAction2(_ sender: UITapGestureRecognizer? = nil) {
         addConstraintsToViews(selectedView: 2)
+        handlingStateChanges(selectedView: 2)
+    }
+    
+    @objc func bottomViewTapAction(_ sender: UITapGestureRecognizer? = nil) {
+        if view1State == .firstViewExpanded {
+            addConstraintsToViews(selectedView: 5)
+            handlingStateChanges(selectedView: 2)
+        } else if view2State == .secondViewExpanded {
+            addConstraintsToViews(selectedView: 3)
+            handlingStateChanges(selectedView: 3)
+        } else {
+            print("not handled")
+        }
+        
     }
     
     func addConstraintsToViews(selectedView : Int) {
@@ -148,46 +229,73 @@ class AbstractionLayer : UIView {
         let heightConstraint4 = NSLayoutConstraint(item: view3, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.lessThanOrEqual, toItem: stack, attribute: NSLayoutConstraint.Attribute.height, multiplier: 1, constant: self.stack.frame.height - 300)
         heightConstraint4.priority = UILayoutPriority(rawValue: 999)
         
+        let heightConstraint5 = NSLayoutConstraint(item: view2, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
+        let heightConstraint6 = NSLayoutConstraint(item: view3, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
+        
         let topLayerTop = NSLayoutConstraint(item: topLayer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
         let topLayerBottom = NSLayoutConstraint(item: topLayer, attribute: .bottom, relatedBy: .equal, toItem: view1, attribute: .bottom, multiplier: 1, constant: 0)
         let middleLayerTop = NSLayoutConstraint(item: middleLayer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
-        let middleLayerBottom = NSLayoutConstraint(item: middleLayer, attribute: .bottom, relatedBy: .equal, toItem: view3, attribute: .top, multiplier: 1, constant: 0)
-        let middleLayerHeight = NSLayoutConstraint(item: middleLayer, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 300)
-        middleLayerHeight.priority = UILayoutPriority(rawValue: 999)
+        //        let middleLayerBottom = NSLayoutConstraint(item: middleLayer, attribute: .bottom, relatedBy: .equal, toItem: view3, attribute: .top, multiplier: 1, constant: 0)
+        //        let middleLayerHeight = NSLayoutConstraint(item: middleLayer, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 300)
+        //        middleLayerHeight.priority = UILayoutPriority(rawValue: 999)
         
         switch(selectedView) {
         case 1:
-            UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 self.topLayer.isHidden = true
                 self.middleLayer.isHidden = true
                 self.removeConstraints(self.constraints)
                 self.addConstraints([heightConstraint2,heightConstraint3])
-                print("1 tapped")
+                print("1st view tapped")
                 self.layoutIfNeeded()
             }, completion: nil)
             
             break
         case 2:
-            UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 self.topLayer.isHidden = false
                 self.middleLayer.isHidden = true
                 self.removeConstraints(self.constraints)
                 self.addConstraints([heightConstraint1,heightConstraint3, topLayerTop, topLayerBottom])
-                print("2 tapped")
+                print("2nd view tapped")
                 self.layoutIfNeeded()
             }, completion: nil)
             break
         case 3:
-            UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-                self.topLayer.isHidden = true
+            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.topLayer.isHidden = false
                 self.middleLayer.isHidden = false
                 self.removeConstraints(self.constraints)
                 self.addConstraints([heightConstraint1,heightConstraint2,middleLayerTop])
-                print("3 tapped")
+                print("3rd view tapped")
                 self.layoutSubviews()
                 self.layoutIfNeeded()
             }, completion: nil)
             break
+        case 4:
+            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.topLayer.isHidden = true
+                self.middleLayer.isHidden = true
+                self.removeConstraints(self.constraints)
+                self.addConstraints([heightConstraint5,heightConstraint6])
+                print("Bottom bar initial state")
+                self.layoutSubviews()
+                self.layoutIfNeeded()
+            }, completion: nil)
+            break
+        case 5:
+            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+                self.topLayer.isHidden = false
+                self.middleLayer.isHidden = true
+                self.removeConstraints(self.constraints)
+                self.addConstraints([heightConstraint1,heightConstraint6])
+                print("bottom bar 1st tap")
+                self.layoutSubviews()
+                self.layoutIfNeeded()
+            }, completion: nil)
+            break
+            
+            
         default:
             UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                 self.topLayer.isHidden = true
@@ -200,8 +308,96 @@ class AbstractionLayer : UIView {
         }
     }
     
-    func generalConstraints() {
+    func handlingStateChanges(selectedView : Int) {
+        switch (selectedView) {
+        case 1:
+            view1State = .firstViewExpanded
+            view2State = .secondViewCollapsed
+            view3State = .thirdViewCollapsed
+            updateSubViews()
+            break
+        case 2:
+            view1State = .firstViewCollapsed
+            view2State = .secondViewExpanded
+            view3State = .thirdViewCollapsed
+            updateSubViews()
+            break
+        case 3:
+            view1State = .firstViewCollapsed
+            view2State = .secondViewCollapsed
+            view3State = .thirdViewExpanded
+            updateSubViews()
+            break
+        default:
+            print("state not handled")
+            break
+        }
+        
+    }
     
+    func updateSubViews() {
+        self.view1.subviews.forEach({ view in
+            view.removeFromSuperview()
+        })
+        self.view2.subviews.forEach({ view in
+            view.removeFromSuperview()
+        })
+        self.view3.subviews.forEach({ view in
+            view.removeFromSuperview()
+        })
+        
+        let label1 = UILabel()
+        label1.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
+        label1.text = view1State == .firstViewExpanded ? "hi Kiran, how much do you need?" : "credit amount"
+        label1.font = UIFont.systemFont(ofSize: 20)
+        label1.textColor = UIColor(hexString: "#DFDFDE")
+        label1.textAlignment = .left
+        self.view1.addSubview(label1)
+        
+        
+        let subLabel1 = UILabel()
+        subLabel1.frame = CGRect(x: 20, y: 50, width: self.frame.width - 40, height: 40)
+        subLabel1.text = view1State == .firstViewExpanded ? "move the dial and set any amount you need upto ₹ 487,891" : "₹1,50,000"
+        subLabel1.numberOfLines = 0
+        subLabel1.font = UIFont.systemFont(ofSize: 16)
+        subLabel1.textColor = UIColor(hexString: "#8D8DAA")
+        subLabel1.textAlignment = .left
+        self.view1.addSubview(subLabel1)
+        
+        let label2 = UILabel()
+        label2.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
+        label2.text = view2State == .secondViewExpanded ? "how do you wish to repay?" : "EMI"
+        label2.font = UIFont.systemFont(ofSize: 20)
+        label2.textColor = UIColor(hexString: "#DFDFDE")
+        label2.textAlignment = .left
+        self.view2.addSubview(label2)
+        
+        let subLabel2 = UILabel()
+        subLabel2.frame = CGRect(x: 20, y: 50, width: self.frame.width - 40, height: 40)
+        subLabel2.text = view2State == .secondViewExpanded ? "choose on of our recommended plans or make your own" : "₹4,247/mo"
+        subLabel2.numberOfLines = 0
+        subLabel2.font = UIFont.systemFont(ofSize: 16)
+        subLabel2.textColor = UIColor(hexString: "#8D8DAA")
+        subLabel2.textAlignment = .left
+        self.view2.addSubview(subLabel2)
+        
+        
+        let label3 = UILabel()
+        label3.frame = CGRect(x: 20, y: 20, width: self.frame.width - 40 , height: 20)
+        label3.text = view3State == .thirdViewExpanded ? "where should we send the money?" : "select a bank"
+        label3.font = UIFont.systemFont(ofSize: 20)
+        label3.textColor = UIColor(hexString: "#DFDFDE")
+        label3.textAlignment = .left
+        self.view3.addSubview(label3)
+        
+        let subLabel3 = UILabel()
+        subLabel3.frame = CGRect(x: 20, y: 50, width: self.frame.width - 40, height: 40)
+        subLabel3.text = view3State == .thirdViewExpanded ?  "amount will be credited to this bank account, EMI will also be debited from this bank account" : "select an account"
+        subLabel3.numberOfLines = 0
+        subLabel3.font = UIFont.systemFont(ofSize: 16)
+        subLabel3.textColor = UIColor(hexString: "#8D8DAA")
+        subLabel3.textAlignment = .left
+        self.view3.addSubview(subLabel3)
     }
 }
 
@@ -232,4 +428,13 @@ extension UIColor {
         let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
         return String(format:"#%06x", rgb)
     }
+}
+
+enum States : String {
+case firstViewCollapsed
+case firstViewExpanded
+case secondViewCollapsed
+case secondViewExpanded
+case thirdViewCollapsed
+case thirdViewExpanded
 }
