@@ -204,6 +204,16 @@ public class AbstractionLayer : UIView {
     //MARK: - Class functions
     
     func addSubViews() {
+        if view1TitleTextEx.isEmpty {
+            self.setLabelValuesWhenExpanded(view1Title: nil, view1SubTitle: nil, view2Title: nil, view2Subtitle: nil, view3Title: nil, view3SubTitle: nil)
+        }
+        if view1TitleTextCl.isEmpty {
+            self.setLabelValuesWhenCollapsed(view1Title: nil, view1SubTitle: nil, view2Title: nil, view2Subtitle: nil, view3Title: nil, view3SubTitle: nil)
+        }
+        if bottomViewFirstStateText.isEmpty || bottomViewSecondStateText.isEmpty || bottomViewThirdStateText.isEmpty {
+            self.setBottomViewText(firstStateText: nil, secondStateText: nil, thirdStateText: nil)
+        }
+        
         self.addSubview(stack)
         self.addSubview(bottomView)
         self.addSubview(topLayer)
@@ -216,15 +226,7 @@ public class AbstractionLayer : UIView {
         if self.cornerRadius == 15 {
             self.setCornerRadiusForTopCorners(radius: nil)
         }
-        if view1TitleTextEx.isEmpty {
-            self.setLabelValuesWhenExpanded(view1Title: nil, view1SubTitle: nil, view2Title: nil, view2Subtitle: nil, view3Title: nil, view3SubTitle: nil)
-        }
-        if view1TitleTextCl.isEmpty {
-            self.setLabelValuesWhenCollapsed(view1Title: nil, view1SubTitle: nil, view2Title: nil, view2Subtitle: nil, view3Title: nil, view3SubTitle: nil)
-        }
-        if bottomViewFirstStateText.isEmpty || bottomViewSecondStateText.isEmpty || bottomViewThirdStateText.isEmpty {
-            self.setBottomViewText(firstStateText: nil, secondStateText: nil, thirdStateText: nil)
-        }
+        
     }
     
     private func addGestures() {
